@@ -26,7 +26,6 @@ and integrate plugins in jenkins in plugins and systems
 
 overall i added some security checks and post build actions if it passes security checks and warnings should be ignored checks then only it pushes into docker images 
 
-# project stages in jenkins
 
 
 
