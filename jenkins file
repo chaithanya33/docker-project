@@ -1,1 +1,105 @@
 
+pipeline {
+    agent any
+
+    tools {
+        jdk 'jdk17'
+        nodejs 'nodejs'
+    }
+
+    environment {
+        SCANNER_HOME = tool 'mysonar'
+    }
+
+    stages {
+
+        stage("Clean WS") {
+            steps {
+                cleanWs()
+            }
+        }
+
+        stage("Code") {
+            steps {
+                git url: "https://github.com/chaithanya33/Zomato-Project.git"
+            }
+        }
+
+        stage("CQA") {
+            steps {
+                withSonarQubeEnv('mysonar') {
+                    sh """
+                        ${SCANNER_HOME}/bin/sonar-scanner \
+                        -Dsonar.projectName=zomato \
+                        -Dsonar.projectKey=zomato
+                    """
+                }
+            }
+        }
+
+        stage("Build") {
+            steps {
+                sh 'npm install'
+            }
+        }
+
+        stage("OWASP") {
+            steps {
+                dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcInstallation: 'DP-check'
+                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+            }
+        }
+
+        stage("DockerImageBuild") {
+            steps {
+                sh "docker build -t chaithanya2/zomato:myproject ."
+            }
+        }
+
+        stage("TrivyFileSystem") {
+            steps {
+                sh "trivy fs . > trivyfs.txt"
+            }
+        }
+
+        stage("ImageScan") {
+            steps {
+                sh 'trivy image chaithanya2/zomato:myproject'
+            }
+        }
+
+        stage("DockerImagePush") {
+            steps {
+                script { 
+                    withDockerRegistry(credentialsId: 'ddd') {
+                        sh 'docker push chaithanya2/zomato:myproject'
+                    }
+                }
+            }
+        }
+
+        stage("Container") {
+            steps {
+                sh '''
+                    docker rm -f cont1 || true
+                    docker run -d --name cont1 -p 3000:3000 chaithanya2/zomato:myproject
+                '''
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "Pipeline Successful"
+            echo "Application running at http://<EC2-PUBLIC-IP>:3000"
+        }
+        
+        failure {
+            echo "Pipeline Failed. Please check the console output."
+        }
+        
+        always {
+            echo "Pipeline Finished"
+        }
+    }
+}
