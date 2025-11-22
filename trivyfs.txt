@@ -1,0 +1,19 @@
+2025-11-22T05:52:12.107Z	[34mINFO[0m	Detected OS: unknown
+2025-11-22T05:52:12.107Z	[34mINFO[0m	Number of PL dependency files: 1
+2025-11-22T05:52:12.107Z	[34mINFO[0m	Detecting npm vulnerabilities...
+
+package-lock.json
+=================
+Total: 2 (UNKNOWN: 0, LOW: 0, MEDIUM: 0, HIGH: 2, CRITICAL: 0)
+
++-----------+------------------+----------+-------------------+---------------+---------------------------------------+
+|  LIBRARY  | VULNERABILITY ID | SEVERITY | INSTALLED VERSION | FIXED VERSION |                 TITLE                 |
++-----------+------------------+----------+-------------------+---------------+---------------------------------------+
+| json5     | CVE-2022-46175   | HIGH     | 1.0.1             | 1.0.2, 2.2.2  | json5: Prototype Pollution            |
+|           |                  |          |                   |               | in JSON5 via Parse Method             |
+|           |                  |          |                   |               | -->avd.aquasec.com/nvd/cve-2022-46175 |
++-----------+------------------+          +-------------------+---------------+---------------------------------------+
+| nth-check | CVE-2021-3803    |          | 1.0.2             | 2.0.1         | nodejs-nth-check: inefficient         |
+|           |                  |          |                   |               | regular expression complexity         |
+|           |                  |          |                   |               | -->avd.aquasec.com/nvd/cve-2021-3803  |
++-----------+------------------+----------+-------------------+---------------+---------------------------------------+

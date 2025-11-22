@@ -1,0 +1,27 @@
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+.DS_Store
+
+# Environment
+
+.env
+*.env
+
+# Jenkins workspace junk
+
+@tmp/
+tmp/
+.trivy/
+.trivyfs.txt
+
+# Build outputs
+
+dist/
+build/
+
+# Logs
+
+*.log
+logs/
