@@ -1,4 +1,3 @@
-
 pipeline {
     agent any
 
@@ -13,15 +12,15 @@ pipeline {
 
     stages {
 
-        stage("Clean WS") {
+        stage("Clean Workspace") {
             steps {
                 cleanWs()
             }
         }
 
-        stage("Code") {
+        stage("Checkout Code") {
             steps {
-                git url: "https://github.com/chaithanya33/Zomato-Project.git"
+                git branch: 'main', url: "https://github.com/chaithanya33/docker-project.git"
             }
         }
 
@@ -31,7 +30,8 @@ pipeline {
                     sh """
                         ${SCANNER_HOME}/bin/sonar-scanner \
                         -Dsonar.projectName=zomato \
-                        -Dsonar.projectKey=zomato
+                        -Dsonar.projectKey=zomato \
+                        -Dsonar.sources=.
                     """
                 }
             }
@@ -43,28 +43,31 @@ pipeline {
             }
         }
 
-        stage("OWASP") {
+        stage('Snyk Security Scan') {
             steps {
-                dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcInstallation: 'DP-check'
-                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+                snykSecurity failOnIssues: false, snykInstallation: 'snyk', snykTokenId: 'snyk'
+            }
+        }
+
+        stage("Trivy FileSystem Scan") {
+            steps {
+                sh '''
+                    docker run --rm -v $PWD:/scan aquasec/trivy fs /scan
+                '''
             }
         }
 
         stage("DockerImageBuild") {
             steps {
-                sh "docker build -t chaithanya2/zomato:myproject ."
+                sh "docker build -t chaithanya2/zomato:project ."
             }
         }
 
-        stage("TrivyFileSystem") {
+        stage("Trivy Image Scan") {
             steps {
-                sh "trivy fs . > trivyfs.txt"
-            }
-        }
-
-        stage("ImageScan") {
-            steps {
-                sh 'trivy image chaithanya2/zomato:myproject'
+                sh '''
+                    docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image chaithanya2/zomato:project
+                '''
             }
         }
 
@@ -72,7 +75,7 @@ pipeline {
             steps {
                 script { 
                     withDockerRegistry(credentialsId: 'ddd') {
-                        sh 'docker push chaithanya2/zomato:myproject'
+                        sh 'docker push chaithanya2/zomato:project'
                     }
                 }
             }
@@ -82,10 +85,11 @@ pipeline {
             steps {
                 sh '''
                     docker rm -f cont1 || true
-                    docker run -d --name cont1 -p 3000:3000 chaithanya2/zomato:myproject
+                    docker run -d --name cont1 -p 3000:3000 chaithanya2/zomato:project
                 '''
             }
         }
+
     }
 
     post {
