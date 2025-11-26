@@ -23,8 +23,10 @@ overall tools and dependencies
 plugins in jenkins  
 1)node.js
 2)eclips Temurin installer 
-3) OWASP dependency 4)docker pipeline 
-5) sonarqube
+3)docker pipeline 
+4) sonarqube
+5)trivy docker image
+6)synk tool /to store artifacts and suecrity tool scan 
 and integrate plugins in jenkins in plugins and systems
 
 overall i added some security checks and post build actions if it passes security checks and warnings should be ignored checks then only it pushes into docker images
