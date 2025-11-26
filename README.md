@@ -1,5 +1,8 @@
 # PROJECT STRUCTURE
 
+<img width="800" height="320" alt="Untitled Diagram drawio" src="https://github.com/user-attachments/assets/afdeabf1-25c7-4ae3-9130-d8196aead609" />
+
+
 
 
 
