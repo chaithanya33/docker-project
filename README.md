@@ -31,10 +31,39 @@ and integrate plugins in jenkins in plugins and systems
 
 overall i added some security checks and post build actions if it passes security checks and warnings should be ignored checks then only it pushes into docker images
 
+stages
+
+<img width="1816" height="755" alt="Screenshot 2025-11-26 131910" src="https://github.com/user-attachments/assets/e0d9cbbc-82e6-404c-b06e-bade9f8f996a" />
+
+
+# final output
+
+<img width="1767" height="898" alt="Screenshot 2025-11-26 131758" src="https://github.com/user-attachments/assets/d22457b3-c159-4fe9-a451-61aff5861c9d" />
+
+<img width="1913" height="764" alt="Screenshot 2025-11-26 131931" src="https://github.com/user-attachments/assets/42602e50-a13a-4ee8-afd4-0992949cf32f" />
+
+<img width="1896" height="1008" alt="Screenshot 2025-11-26 132323" src="https://github.com/user-attachments/assets/d96d1b8e-b31a-437e-8060-5a172076da90" />
+
+<img width="1884" height="993" alt="Screenshot 2025-11-26 132340" src="https://github.com/user-attachments/assets/fdf31bdd-7c85-4990-8f7e-932668588bf8" />
 
 
 
-<img width="1850" height="1015" alt="Screenshot 2025-11-22 112528" src="https://github.com/user-attachments/assets/91888c7b-ff8a-4089-a796-0f4d75c0d73a" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
